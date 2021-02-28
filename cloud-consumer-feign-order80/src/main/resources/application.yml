@@ -1,0 +1,33 @@
+server:
+  port: 80
+
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+
+ribbon:
+  #  请求处理超时时间
+  ReadTimeout: 5000
+  #  请求链接超时时间
+  ConnectTimeout: 2000
+
+#对单个服务配置负载均衡策略（只能对单个服务进行这样配置）
+CLOUD-PAYMENT-SERVICE:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+logging:
+  level:
+    #    Feign⽇志只会对⽇志级别为debug的做出响应
+    com.mld.cloud.feign.PaymentFeignClient: debug
+
+feign:
+  compression:
+    request:
+      enabled: true # 开启请求压缩，默认false
+      mime-types: text/html,application/xml,application/json # 设置压缩的数据类型，此处也是默认值
+      min-request-size: 2048 # 设置触发压缩的⼤⼩下限，此处也是默认值
+    response:
+      enabled: true # 开启响应压缩，默认false
