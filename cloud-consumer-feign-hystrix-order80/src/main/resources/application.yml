@@ -11,3 +11,21 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka
+
+#feign.hystrix.enabled=true需要和hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds要么都不配，要么一块配置
+#如果只配了feign.hystrix.enabled=true 那么接口配的execution.isolation.thread.timeoutInMilliseconds就不会起作用，还是用默认的1000ms
+feign:
+  hystrix:
+    enabled: true #开启feign的hystrix支持,默认是false
+
+ribbon:
+  ConnectTimeout: 2000
+  ReadTimeout: 5000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
